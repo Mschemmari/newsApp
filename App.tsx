@@ -19,7 +19,7 @@ function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Hit[]>([]);
 
-  const handleDelete = (itemId: string) => {
+  const handleDelete = (itemId: number) => {
     const filteredUsers = hits.filter(item => item.story_id !== itemId);
     setHits(filteredUsers);
   };
