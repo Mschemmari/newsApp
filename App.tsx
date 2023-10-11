@@ -56,15 +56,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
 });
 
 export default App;
