@@ -51,7 +51,7 @@ function useHitsData() {
     }
   }, [online]);
 
-  return {hits, loading, error};
+  return {hits, setHits, loading, error};
 }
 
 export default useHitsData;

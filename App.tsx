@@ -15,9 +15,14 @@ import HitItem from './src/HitItem';
 import useHitsData from './hooks/useHitsData';
 
 function App() {
-  const {hits, loading} = useHitsData();
+  const {hits, setHits, loading} = useHitsData();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Hit[]>([]);
+
+  const handleDelete = (itemId: string) => {
+    const filteredUsers = hits.filter(item => item.story_id !== itemId);
+    setHits(filteredUsers);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -27,6 +32,7 @@ function App() {
             <Text>cargandooo</Text>
           ) : (
             <HitItem
+              deleteItem={handleDelete}
               setSelectedItem={setSelectedItem}
               setModalVisible={setModalVisible}
               hits={hits}
