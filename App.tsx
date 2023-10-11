@@ -13,8 +13,8 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<Hit[]>([]);
 
   const handleDelete = (itemId: number) => {
-    const filteredUsers = hits.filter(item => item.story_id !== itemId);
-    setHits(filteredUsers);
+    const filteredItems = hits.filter(item => item.story_id !== itemId);
+    setHits(filteredItems);
   };
 
   return (
