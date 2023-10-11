@@ -60,11 +60,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
-
-  webView: {
-    flex: 1,
-    width: Dimensions.get('window').width - 20,
-  },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
