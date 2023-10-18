@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  RefreshControl,
+} from 'react-native';
 
 import {type Hit} from './types';
 
@@ -8,18 +15,23 @@ import HitItem from './src/HitItem';
 import useHitsData from './hooks/useHitsData';
 
 function App() {
-  const {hits, setHits, loading} = useHitsData();
+  const {hits, setHits, loading, refreshing, onRefresh} = useHitsData();
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Hit[]>([]);
+  const [selectedItem, setSelectedItem] = useState<Hit | null>(null);
 
-  const handleDelete = (itemId: number) => {
-    const filteredItems = hits.filter(item => item.story_id !== itemId);
+  const handleDelete = (rowItem: Hit) => {
+    const filteredItems = hits.filter(
+      item => item.objectID !== rowItem.objectID,
+    );
     setHits(filteredItems);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View>
           {loading ? (
             <Text>cargandooo</Text>
@@ -46,8 +58,12 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 20,
-    marginVertical: 20,
+    paddingTop: 20,
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
 

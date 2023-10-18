@@ -1,14 +1,23 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import {type Hit} from '../types';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {fetchHits} from '../services/hits';
 
 function useHitsData() {
   const [hits, setHits] = useState<Hit[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [online, setOnline] = useState<boolean | null>(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchHits({setHits, setLoading, setError});
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     const checkNetworkStatus = () => {
@@ -36,22 +45,11 @@ function useHitsData() {
     } else {
       setLoading(true);
       setError(null);
-
-      fetch('https://hn.algolia.com/api/v1/search_by_date?query=mobile')
-        .then(async res => await res.json())
-        .then(res => {
-          setHits(res.hits);
-          setLoading(false);
-          return AsyncStorage.setItem('cachedData', JSON.stringify(res.hits));
-        })
-        .catch(err => {
-          setError(err);
-          setLoading(false);
-        });
+      fetchHits({setHits, setLoading, setError});
     }
   }, [online]);
 
-  return {hits, setHits, loading, error};
+  return {hits, setHits, loading, error, onRefresh, refreshing};
 }
 
 export default useHitsData;

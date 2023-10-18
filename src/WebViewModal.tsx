@@ -7,9 +7,20 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {type Hit} from '../types';
 import {WebView} from 'react-native-webview';
 
-const WebViewModal = ({modalVisible, setModalVisible, selectedItem}) => {
+type WebViewModalProps = {
+  modalVisible: boolean;
+  setModalVisible: (visible: boolean) => void;
+  selectedItem: Hit | null;
+};
+
+const WebViewModal = ({
+  modalVisible,
+  setModalVisible,
+  selectedItem,
+}: WebViewModalProps) => {
   return (
     <Modal
       animationType="slide"
@@ -20,15 +31,15 @@ const WebViewModal = ({modalVisible, setModalVisible, selectedItem}) => {
       }}>
       <View style={styles.centeredView}>
         <View>
-          <WebView
-            source={{uri: selectedItem.story_url}}
-            style={styles.webView}
-          />
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.textStyle}>Hide Modal</Text>
+            <Text style={styles.textStyle}>Close Modal</Text>
           </Pressable>
+          <WebView
+            source={{uri: selectedItem?.story_url || ''}}
+            style={styles.webView}
+          />
         </View>
       </View>
     </Modal>
@@ -37,15 +48,17 @@ const WebViewModal = ({modalVisible, setModalVisible, selectedItem}) => {
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 20,
+    paddingTop: 25,
     padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+    height: 50,
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: 'white',
+  },
+  buttonContainer: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
   centeredView: {
     flex: 1,
@@ -72,12 +85,11 @@ const styles = StyleSheet.create({
   },
   webView: {
     flex: 1,
-    width: Dimensions.get('window').width - 20,
+    width: Dimensions.get('window').width,
   },
   textStyle: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
-    textAlign: 'center',
   },
 });
 
