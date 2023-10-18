@@ -39,7 +39,7 @@ const HitItem = ({
                   setSelectedItem(item);
                 }}>
                 <Text style={styles.title}>{item.story_title}</Text>
-                <Text>
+                <Text style={styles.authorText}>
                   {item.author} {getDate(item.created_at_i)}
                 </Text>
               </TouchableOpacity>
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemContainer: {
-    paddingHorizontal: 30,
     paddingVertical: 20,
+    padding: 10,
     backgroundColor: 'white',
   },
   item: {
@@ -78,16 +78,21 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
   },
+  authorText: {
+    marginTop: 5,
+    color: 'grey',
+  },
   button: {
-    color: '#1b1a17',
+    color: 'white',
+    fontSize: 15,
     fontWeight: '600',
-    paddingHorizontal: 30,
-    paddingVertical: 40,
   },
   buttonContainer: {
+    flex: 1,
     backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: 100,
   },
 });
 

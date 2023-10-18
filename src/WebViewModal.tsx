@@ -32,14 +32,23 @@ const WebViewModal = ({
       <View style={styles.centeredView}>
         <View>
           <Pressable
-            style={[styles.button, styles.buttonClose]}
+            style={styles.buttonClose}
             onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.textStyle}>Close Modal</Text>
+            <Text style={styles.arrowStyles}>&lsaquo;</Text>
+            <Text style={styles.textStyle}>Back</Text>
           </Pressable>
-          <WebView
-            source={{uri: selectedItem?.story_url || ''}}
-            style={styles.webView}
-          />
+          {selectedItem?.story_url ? (
+            <WebView
+              source={{uri: selectedItem?.story_url || ''}}
+              style={styles.webView}
+            />
+          ) : (
+            <View style={styles.notAvailable}>
+              <Text style={styles.notAvailableText}>
+                Sorry this story its not available
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </Modal>
@@ -47,13 +56,32 @@ const WebViewModal = ({
 };
 
 const styles = StyleSheet.create({
-  button: {
-    paddingTop: 25,
-    padding: 10,
-    height: 50,
+  notAvailable: {
+    flex: 1,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  notAvailableText: {
+    fontSize: 20,
   },
   buttonClose: {
+    padding: 10,
+    flexDirection: 'row',
     backgroundColor: 'white',
+  },
+  textStyle: {
+    paddingTop: 10,
+    paddingLeft: 5,
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+    justifyContent: 'center',
+  },
+  arrowStyles: {
+    fontSize: 30,
   },
   buttonContainer: {
     backgroundColor: 'red',
@@ -64,32 +92,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    paddingTop: 45,
     width: '100%',
-  },
-  modalView: {
-    zIndex: 999,
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
   webView: {
     flex: 1,
     width: Dimensions.get('window').width,
-  },
-  textStyle: {
-    color: 'black',
-    fontWeight: 'bold',
   },
 });
 

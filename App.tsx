@@ -58,12 +58,7 @@ function App() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
+    padding: 20,
   },
 });
 
