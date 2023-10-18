@@ -45,7 +45,7 @@ const WebViewModal = ({
           ) : (
             <View style={styles.notAvailable}>
               <Text style={styles.notAvailableText}>
-                Sorry this story its not available
+                Sorry this story is not available
               </Text>
             </View>
           )}
