@@ -15,16 +15,9 @@ import HitItem from './src/HitItem';
 import useHitsData from './hooks/useHitsData';
 
 function App() {
-  const {hits, setHits, loading, refreshing, onRefresh} = useHitsData();
+  const {hits, handleDelete, loading, refreshing, onRefresh} = useHitsData();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Hit | null>(null);
-
-  const handleDelete = (rowItem: Hit) => {
-    const filteredItems = hits.filter(
-      item => item.objectID !== rowItem.objectID,
-    );
-    setHits(filteredItems);
-  };
 
   return (
     <SafeAreaView style={styles.container}>

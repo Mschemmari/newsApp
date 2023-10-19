@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import {type Hit} from '../types';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {getDate} from './utils';
+import {getDate} from '../utils/utils';
 
 type HitItemProps = {
   setSelectedItem: (item: Hit | null) => void;
