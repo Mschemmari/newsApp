@@ -12,7 +12,7 @@ function useHitsData() {
   const [refreshing, setRefreshing] = useState(false);
   const [deletedItems, setDeletedItems] = useState<Hit[]>([]);
 
-  const onRefresh = useCallback(async () => {
+  const setRefreshedData = async () => {
     const refreshedHits = await fetchHits();
     const deletedHits = await getSavedData('deletedItems');
     if (deletedHits) {
@@ -23,7 +23,10 @@ function useHitsData() {
       });
       setHits(filteredHits);
     }
+  };
 
+  const onRefresh = useCallback(() => {
+    setRefreshedData();
     setLoading(false);
     setRefreshing(false);
   }, []);
@@ -36,29 +39,30 @@ function useHitsData() {
     setHits(updatedHits);
     saveData([deletedItem, ...deletedItems], 'deletedItems');
   };
-
+  const retrieveSavedData = async () => {
+    const retrievedData = await getSavedData('cachedData');
+    setHits(retrievedData);
+  };
   useEffect(() => {
     const checkNetworkStatus = () => {
       NetInfo.fetch().then(state => {
         setOnline(state.isConnected);
       });
     };
-
     checkNetworkStatus();
-
     NetInfo.addEventListener(state => {
       setOnline(state.isConnected);
     });
 
     if (!online) {
-      getSavedData('cachedData');
+      retrieveSavedData();
     } else {
       setLoading(true);
       setError(null);
-
       fetchHits()
         .then(data => {
           setHits(data);
+          saveData(data, 'cachedData');
           setLoading(false);
         })
         .catch(err => {
