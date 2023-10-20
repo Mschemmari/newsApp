@@ -25,6 +25,23 @@ function useHitsData() {
     }
   };
 
+  const loadHits = async () => {
+    fetchHits()
+      .then(data => {
+        setHits(data);
+        saveData(data, 'cachedData');
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        setError(err);
+        setLoading(false);
+      })
+      .finally(() => {
+        setRefreshing(false);
+      });
+  };
+
   const onRefresh = useCallback(() => {
     setRefreshedData();
     setLoading(false);
@@ -59,21 +76,11 @@ function useHitsData() {
     } else {
       setLoading(true);
       setError(null);
-      fetchHits()
-        .then(data => {
-          setHits(data);
-          saveData(data, 'cachedData');
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error('Error:', err);
-          setError(err);
-          setLoading(false);
-        })
-        .finally(() => {
-          setRefreshing(false);
-        });
+      loadHits();
     }
+    return () => {
+      saveData([], 'deletedItems');
+    };
   }, [online]);
 
   return {hits, setHits, loading, error, onRefresh, refreshing, handleDelete};
